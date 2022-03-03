@@ -1,3 +1,8 @@
 # IDE
 .idea
 .vscode
+
+
+# Build
+build/
+modo_api.egg-info/
