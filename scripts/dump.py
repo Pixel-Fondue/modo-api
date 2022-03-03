@@ -8,4 +8,5 @@ if __name__ == "__main__":
         # If no version supplied, use default.
         version = "15.1v1"
     # Dump the modo version.
-    dump_tools.dump(version)
+    results = dump_tools.dump(version)
+    print(results)

@@ -1,0 +1,16 @@
+Metadata-Version: 2.1
+Name: modo-api
+Version: 15.1.1
+Summary: Dumped API for Modo 15.1.1
+Home-page: https://github.com/ShawnFrueh/modo-api
+Author: Shawn Frueh
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3.7
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+License-File: LICENSE
+
+UNKNOWN
+

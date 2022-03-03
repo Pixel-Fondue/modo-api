@@ -10,18 +10,22 @@ thus important to keep everything needed to run this script contained in this si
 """
 import inspect
 import re
-import os
 import lx
 import shutil
+from pathlib import Path
 
-BASE_DIR = lx.args()[0][1:-1]
-PYTHON_DIR = lx.args()[1][1:-1]
-ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, os.sep.join([".."] * 2)))
+BASE_DIR = Path(lx.args()[0][1:-1])
+PYTHON_DIR = Path(lx.args()[1][1:] + " " + lx.args()[2][:-1])
+ROOT_DIR = BASE_DIR.parent.parent.parent
 PLATFORM = lx.service.Platform()
 MODO_VERSION = (f"{PLATFORM.AppVersionMajor()}."
-                f"{PLATFORM.AppVersionMinor()}"
-                f"v{PLATFORM.AppVersionSP()}")
+                f"{PLATFORM.AppVersionMinor()}."
+                f"{PLATFORM.AppVersionSP()}")
 MODO_BUILD = ": ".join((MODO_VERSION, str(PLATFORM.AppBuild())))
+LX_DIR = ROOT_DIR / "lx"
+if not LX_DIR.exists():
+    LX_DIR.mkdir()
+
 
 class_data = \
     """
@@ -146,16 +150,31 @@ def parse_routines(routine_class):
     return "\n".join(formatted_routines)
 
 
-# TODO: check if the lx init file has changed.
-# for mod in inspect.getmembers(lx, inspect.ismodule):
-#   print mod
-
+# TODO: Safely handle the init
+# init_file = LX_DIR / "__init__.py"
+# with init_file.open("w+") as dump_file:
+#    data = [HEADER]
+#    data_app = data.append
+#    for mod in inspect.getmembers(lx):
+#        mod.t
+#    for class_name, class_obj in inspect.getmembers(method, inspect.isclass):
+#        # Get the methods of the class and format them.
+#        routines = parse_routines(class_obj)
+#        # Get the class docstrings
+#        class_docs = inspect.getdoc(class_obj)
+#        # If no class docstrings just pass in the class name.
+#        doc_strings = class_docs if class_docs else class_name
+#        # Format class object.
+#        cast = ", unknown=None" if method == lx.object else ""
+#        class_doc = class_data.format(name=class_name, doc=doc_strings, routines=routines,
+#                                      cast=cast)
+#        data_app(class_doc)
 
 # Generate Object and service classes
 for method in (lx.object, lx.service):
-    method_file = os.path.join(ROOT_DIR, "lx", f"{method.__name__}.py")
+    method_file = LX_DIR / f"{method.__name__}.py"
     # Parse method members and then export.
-    with open(method_file, "w") as dump_file:
+    with method_file.open("w+") as dump_file:
         data = [HEADER]
         data_app = data.append
         for class_name, class_obj in inspect.getmembers(method, inspect.isclass):
@@ -176,9 +195,9 @@ for method in (lx.object, lx.service):
 # Generate result and symbol values
 for method in (lx.result, lx.symbol):
     # Generate file path to write to
-    method_file = os.path.join(ROOT_DIR, "lx", f"{method.__name__}.py")
+    method_file = LX_DIR / f"{method.__name__}.py"
     # Parse method members and then export.
-    with open(method_file, "w") as dump_file:
+    with method_file.open("w+") as dump_file:
         data = [HEADER + "\n"]
         data_app = data.append
         for item in dir(method):
@@ -190,37 +209,39 @@ for method in (lx.result, lx.symbol):
 # Copy the rest of the API directly from the install
 # Copy lxu and modo directories locally.
 for api_dir in ("lxu", "modo"):
-    api_source = os.path.join(PYTHON_DIR, api_dir)
-    api_dest = os.path.join(ROOT_DIR, api_dir)
-    if os.path.isdir(api_source):
-        if os.path.exists(api_dest):
+    api_source = PYTHON_DIR / api_dir
+    api_dest = ROOT_DIR / api_dir
+    if api_source.is_dir():
+        if api_dest.exists():
             shutil.rmtree(api_dest)
         shutil.copytree(api_source, api_dest, ignore=shutil.ignore_patterns("*.pyc"))
 
 # Copy lxifc and lxsrv into an __init__ file.
-for api_file in ("lxifc.py", "lxserv.py"):
-    api_dest = os.path.join(ROOT_DIR, api_file.rstrip(".py"), "__init__.py")
-    api_source = os.path.join(PYTHON_DIR, api_file)
+for api_file in ("lxifc.py", "lxserv.py", "lxguid.py"):
+    api_dest = ROOT_DIR / api_file.rstrip(".py") / "__init__.py"
+    if not api_dest.parent.exists():
+        api_dest.parent.mkdir()
+    api_source = PYTHON_DIR / api_file
     data = ""
 
     # Extract the contents of the file.
-    with open(api_source, "r") as source_file:
+    with api_source.open("r") as source_file:
         data = source_file.read()
 
     # write it into the __init__ file.
-    with open(api_dest, "w") as dest_file:
+    with api_dest.open("w+") as dest_file:
         dest_file.write(data)
 
 # Set the modo api version
 version_line = f'__version__ = "{MODO_VERSION}"'
-modo_init = os.path.join(ROOT_DIR, "modo", "__init__.py")
+modo_init = ROOT_DIR / "modo" / "__init__.py"
 # Get the data from __init__
-with open(modo_init, "r") as modo_file:
+with modo_init.open("r") as modo_file:
     modo_data = modo_file.read()
 
 # Replace the line that contains __version__
 modo_data = re.sub("__version__.*", version_line, modo_data)
 
 # Write the update to the __init__
-with open(modo_init, "w") as modo_file:
+with modo_init.open("w+") as modo_file:
     modo_file.write(modo_data)
