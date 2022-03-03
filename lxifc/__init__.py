@@ -3,28 +3,6 @@
 #
 import lx
 
-class ActionListener(object):
-    def actl_ActionChannelSignal(self,item,channel):
-        lx.notimpl()
-    def actl_ActionChannelConstantChange(self,item,channel):
-        lx.notimpl()
-    def actl_ActionChannelConstantPreChange(self,item,channel):
-        lx.notimpl()
-
-class SimulationModifier(object):
-    def sim_Enabled(self,chanRead):
-        return True
-    def sim_Initialize(self,time,sample):
-        lx.notimpl()
-    def sim_Cleanup(self):
-        lx.notimpl()
-    def sim_StepSize(self):
-        lx.notimpl()
-    def sim_Step(self,dt):
-        lx.notimpl()
-    def sim_Bake(self,time):
-        lx.notimpl()
-
 class Modifier(object):
     def mod_Evaluate(self):
         lx.notimpl()
@@ -41,6 +19,20 @@ class Modifier(object):
     def mod_Free(self,cache):
         lx.notimpl()
 
+class SimulationModifier(object):
+    def sim_Enabled(self,chanRead):
+        return True
+    def sim_Initialize(self,time,sample):
+        lx.notimpl()
+    def sim_Cleanup(self):
+        lx.notimpl()
+    def sim_StepSize(self):
+        lx.notimpl()
+    def sim_Step(self,dt):
+        lx.notimpl()
+    def sim_Bake(self,time):
+        lx.notimpl()
+
 class EvalModifier(object):
     def eval_Reset(self,scene):
         lx.notimpl()
@@ -49,10 +41,18 @@ class EvalModifier(object):
     def eval_Alloc(self,item,index,eval):
         lx.notimpl()
 
-lx.bless(ActionListener,":ActionListener")
-lx.bless(SimulationModifier,":SimulationModifier")
+class ActionListener(object):
+    def actl_ActionChannelSignal(self,item,channel):
+        lx.notimpl()
+    def actl_ActionChannelConstantChange(self,item,channel):
+        lx.notimpl()
+    def actl_ActionChannelConstantPreChange(self,item,channel):
+        lx.notimpl()
+
 lx.bless(Modifier,":Modifier")
+lx.bless(SimulationModifier,":SimulationModifier")
 lx.bless(EvalModifier,":EvalModifier")
+lx.bless(ActionListener,":ActionListener")
 
 
 class AnimListener(object):
@@ -75,6 +75,10 @@ lx.bless(AnimListener,":AnimListener")
 
 
 
+class ChannelModOperator(object):
+    def cmop_Evaluate(self):
+        lx.notimpl()
+
 class ChannelModItem(object):
     # Allocate skipped
     def cmod_Flags(self,item,index):
@@ -84,18 +88,14 @@ class ChannelModItem(object):
     def cmod_Cleanup(self,data):
         lx.notimpl()
 
-class ChannelModOperator(object):
-    def cmop_Evaluate(self):
-        lx.notimpl()
-
 class ChannelModManager(object):
     def cman_Define(self,cmod):
         lx.notimpl()
     def cman_Allocate(self,cmod):
         lx.notimpl()
 
-lx.bless(ChannelModItem,":ChannelModItem")
 lx.bless(ChannelModOperator,":ChannelModOperator")
+lx.bless(ChannelModItem,":ChannelModItem")
 lx.bless(ChannelModManager,":ChannelModManager")
 
 class ChannelUI(object):
@@ -216,14 +216,6 @@ class Object(object):
 
 lx.bless(Object,":Object")
 
-class AttributesUI(object):
-    def atrui_UIHints(self,index,hints):
-        lx.notimpl()
-    def atrui_UIValueHints(self,index):
-        lx.notimpl()
-    def atrui_DisableMsg(self,index,message):
-        lx.notimpl()
-
 class CmdSysListener(object):
     def cmdsysevent_SystemReady(self):
         lx.notimpl()
@@ -266,42 +258,16 @@ class CmdSysListener(object):
     def cmdsysevent_UserRedo(self):
         lx.notimpl()
 
-class UIValueHints(object):
-    def uiv_Flags(self):
+class AttributesUI(object):
+    def atrui_UIHints(self,index,hints):
         lx.notimpl()
-    def uiv_PopCount(self):
+    def atrui_UIValueHints(self,index):
         lx.notimpl()
-    def uiv_PopUserName(self,index):
+    def atrui_DisableMsg(self,index,message):
         lx.notimpl()
-    def uiv_PopInternalName(self,index):
-        lx.notimpl()
-    def uiv_PopToolTip(self,index):
-        lx.notimpl()
-    def uiv_PopIconSize(self):
-        lx.notimpl()
-    def uiv_PopIconImage(self,index):
-        lx.notimpl()
-    def uiv_PopIconResource(self,index):
-        lx.notimpl()
-    def uiv_PopFlags(self,index):
-        lx.notimpl()
-    def uiv_PopCategory(self):
-        lx.notimpl()
-    def uiv_ItemTest(self,item):
-        lx.notimpl()
-    def uiv_ColorPickerCommands(self,rgb,alpha,rgbAlt,alphaAlt,useAlt,bufLens):
-        lx.notimpl()
-    def uiv_NotifierCount(self):
-        lx.notimpl()
-    def uiv_NotifierByIndex(self,index):
-        lx.notimpl()
-    def uiv_FormCommandListCount(self):
-        lx.notimpl()
-    def uiv_FormCommandListByIndex(self,index):
-        lx.notimpl()
-    def uiv_CueText(self):
-        lx.notimpl()
-    def uiv_TextValidate(self,value):
+
+class CommandEvent(object):
+    def cevt_Event(self,flags):
         lx.notimpl()
 
 class Command(object):
@@ -392,15 +358,49 @@ class Command(object):
     def cmd_IconImage(self,w,h):
         lx.notimpl()
 
-class CommandEvent(object):
-    def cevt_Event(self,flags):
+class UIValueHints(object):
+    def uiv_Flags(self):
+        lx.notimpl()
+    def uiv_PopCount(self):
+        lx.notimpl()
+    def uiv_PopUserName(self,index):
+        lx.notimpl()
+    def uiv_PopInternalName(self,index):
+        lx.notimpl()
+    def uiv_PopToolTip(self,index):
+        lx.notimpl()
+    def uiv_PopIconSize(self):
+        lx.notimpl()
+    def uiv_PopIconImage(self,index):
+        lx.notimpl()
+    def uiv_PopIconResource(self,index):
+        lx.notimpl()
+    def uiv_PopFlags(self,index):
+        lx.notimpl()
+    def uiv_PopCategory(self):
+        lx.notimpl()
+    def uiv_ItemTest(self,item):
+        lx.notimpl()
+    def uiv_ColorPickerCommands(self,rgb,alpha,rgbAlt,alphaAlt,useAlt,bufLens):
+        lx.notimpl()
+    def uiv_NotifierCount(self):
+        lx.notimpl()
+    def uiv_NotifierByIndex(self,index):
+        lx.notimpl()
+    def uiv_FormCommandListCount(self):
+        lx.notimpl()
+    def uiv_FormCommandListByIndex(self,index):
+        lx.notimpl()
+    def uiv_CueText(self):
+        lx.notimpl()
+    def uiv_TextValidate(self,value):
         lx.notimpl()
 
-lx.bless(AttributesUI,":AttributesUI")
 lx.bless(CmdSysListener,":CmdSysListener")
-lx.bless(UIValueHints,":UIValueHints")
-lx.bless(Command,":Command")
+lx.bless(AttributesUI,":AttributesUI")
 lx.bless(CommandEvent,":CommandEvent")
+lx.bless(Command,":Command")
+lx.bless(UIValueHints,":UIValueHints")
 
 class CustomView(object):
     def customview_Init(self,pane):
@@ -413,6 +413,34 @@ class CustomView(object):
         lx.notimpl()
 
 lx.bless(CustomView,":CustomView")
+
+class ItemInfluence(object):
+    def iinf_HasItems(self):
+        lx.notimpl()
+    def iinf_Enumerate(self,visitor):
+        lx.notimpl()
+    def iinf_GetItem(self):
+        lx.notimpl()
+    def iinf_AllowTransform(self,index):
+        lx.notimpl()
+
+class Deformer(object):
+    def dinf_Flags(self):
+        lx.notimpl()
+    def dinf_PartitionCount(self):
+        return 0
+    def dinf_EnumeratePartition(self,visitor,part):
+        lx.notimpl()
+    def dinf_Element(self):
+        lx.notimpl()
+    def dinf_SetPartition(self,part):
+        lx.notimpl()
+    def dinf_Weight(self,elt,pos):
+        return 1
+    def dinf_Offset(self,elt,weight,pos):
+        lx.notimpl()
+    # WeightRun skipped
+    # OffsetRun skipped
 
 class MeshInfluence(object):
     def minf_MeshCount(self):
@@ -443,34 +471,6 @@ class Falloff(object):
     def fall_SetMesh(self,mesh):
         lx.notimpl()
 
-class Deformer(object):
-    def dinf_Flags(self):
-        lx.notimpl()
-    def dinf_PartitionCount(self):
-        return 0
-    def dinf_EnumeratePartition(self,visitor,part):
-        lx.notimpl()
-    def dinf_Element(self):
-        lx.notimpl()
-    def dinf_SetPartition(self,part):
-        lx.notimpl()
-    def dinf_Weight(self,elt,pos):
-        return 1
-    def dinf_Offset(self,elt,weight,pos):
-        lx.notimpl()
-    # WeightRun skipped
-    # OffsetRun skipped
-
-class ItemInfluence(object):
-    def iinf_HasItems(self):
-        lx.notimpl()
-    def iinf_Enumerate(self,visitor):
-        lx.notimpl()
-    def iinf_GetItem(self):
-        lx.notimpl()
-    def iinf_AllowTransform(self,index):
-        lx.notimpl()
-
 class Deformation(object):
     def deform_Flags(self):
         return 0
@@ -482,26 +482,12 @@ class Deformation(object):
         lx.notimpl()
     # OffsetRun skipped
 
+lx.bless(ItemInfluence,":ItemInfluence")
+lx.bless(Deformer,":Deformer")
 lx.bless(MeshInfluence,":MeshInfluence")
 lx.bless(WeightMapDeformerItem,":WeightMapDeformerItem")
 lx.bless(Falloff,":Falloff")
-lx.bless(Deformer,":Deformer")
-lx.bless(ItemInfluence,":ItemInfluence")
 lx.bless(Deformation,":Deformation")
-
-class DirCacheSynthetic(object):
-    def dcsyn_Lookup(self,path):
-        lx.notimpl()
-    def dcsyn_Root(self):
-        lx.notimpl()
-
-class DirEntryThumbAsync(object):
-    def detasync_Ready(self,dirCacheEntry,idealW,idealH,image):
-        lx.notimpl()
-    def detasync_Failed(self,dirCacheEntry):
-        lx.notimpl()
-    def detasync_Ident(self):
-        lx.notimpl()
 
 class DirCacheFileMetrics(object):
     def dcfilemetrics_Metadata(self):
@@ -509,6 +495,12 @@ class DirCacheFileMetrics(object):
     def dcfilemetrics_Markup(self):
         lx.notimpl()
     def dcfilemetrics_Flags(self):
+        lx.notimpl()
+
+class DirCacheSynthetic(object):
+    def dcsyn_Lookup(self,path):
+        lx.notimpl()
+    def dcsyn_Root(self):
         lx.notimpl()
 
 class DirCacheSyntheticEntry(object):
@@ -533,10 +525,18 @@ class DirCacheSyntheticEntry(object):
     def dcsyne_Size(self):
         lx.notimpl()
 
-lx.bless(DirCacheSynthetic,":DirCacheSynthetic")
-lx.bless(DirEntryThumbAsync,":DirEntryThumbAsync")
+class DirEntryThumbAsync(object):
+    def detasync_Ready(self,dirCacheEntry,idealW,idealH,image):
+        lx.notimpl()
+    def detasync_Failed(self,dirCacheEntry):
+        lx.notimpl()
+    def detasync_Ident(self):
+        lx.notimpl()
+
 lx.bless(DirCacheFileMetrics,":DirCacheFileMetrics")
+lx.bless(DirCacheSynthetic,":DirCacheSynthetic")
 lx.bless(DirCacheSyntheticEntry,":DirCacheSyntheticEntry")
+lx.bless(DirEntryThumbAsync,":DirEntryThumbAsync")
 
 
 class DrawingOverride(object):
@@ -623,10 +623,6 @@ class VirtualDevice(object):
 
 lx.bless(VirtualDevice,":VirtualDevice")
 
-class CacheData(object):
-    def cache_Size(self):
-        lx.notimpl()
-
 class StackFilter(object):
     def filt_Type(self):
         lx.notimpl()
@@ -637,8 +633,12 @@ class StackFilter(object):
     def filt_Identifier(self):
         lx.notimpl()
 
-lx.bless(CacheData,":CacheData")
+class CacheData(object):
+    def cache_Size(self):
+        lx.notimpl()
+
 lx.bless(StackFilter,":StackFilter")
+lx.bless(CacheData,":CacheData")
 
 class Force(object):
     def force_Flags(self):
@@ -664,14 +664,6 @@ class GroupDest(object):
     def grpd_Location(self):
         lx.notimpl()
 
-class GroupMemberItemDest(object):
-    def grpmid_Group(self):
-        lx.notimpl()
-    def grpmid_Item(self):
-        lx.notimpl()
-    def grpmid_Location(self):
-        lx.notimpl()
-
 class GroupMemberChanDest(object):
     def grpmcd_Group(self):
         lx.notimpl()
@@ -680,51 +672,19 @@ class GroupMemberChanDest(object):
     def grpmcd_Location(self):
         lx.notimpl()
 
+class GroupMemberItemDest(object):
+    def grpmid_Group(self):
+        lx.notimpl()
+    def grpmid_Item(self):
+        lx.notimpl()
+    def grpmid_Location(self):
+        lx.notimpl()
+
 lx.bless(GroupDest,":GroupDest")
-lx.bless(GroupMemberItemDest,":GroupMemberItemDest")
 lx.bless(GroupMemberChanDest,":GroupMemberChanDest")
+lx.bless(GroupMemberItemDest,":GroupMemberItemDest")
 
 
-
-class LayeredImage(object):
-    def limg_Size(self):
-        lx.notimpl()
-    def limg_Count(self):
-        lx.notimpl()
-    def limg_Image(self,index):
-        lx.notimpl()
-    def limg_Name(self,index):
-        lx.notimpl()
-    def limg_Type(self,index):
-        lx.notimpl()
-    def limg_Offset(self,index):
-        lx.notimpl()
-    def limg_Blend(self,index):
-        lx.notimpl()
-    def limg_ChannelName(self,layerIndex,channelIndex):
-        lx.notimpl()
-    def limg_Parent(self,layerIndex):
-        lx.notimpl()
-    def limg_IsGroup(self,layerIndex):
-        lx.notimpl()
-
-class ImageSegment(object):
-    def imgs_GetSegment(self,y,left,right,rgba):
-        lx.notimpl()
-    def imgs_SetSegment(self,y,left,right,type,line):
-        lx.notimpl()
-
-class ImageWrite(object):
-    def imgw_Size(self):
-        lx.notimpl()
-    def imgw_Format(self):
-        lx.notimpl()
-    def imgw_AddAttribute(self,name,type):
-        lx.notimpl()
-    def imgw_SetPixel(self,x,y,type,pixel):
-        lx.notimpl()
-    def imgw_SetLine(self,y,type,line):
-        lx.notimpl()
 
 class Movie(object):
     def mov_BeginMovie(self,fname,w,h,flags):
@@ -750,6 +710,20 @@ class ImageFilter(object):
     def imf_SingleSampleN(self,src,num):
         lx.notimpl()
 
+class TileImage(object):
+    def tileimg_LevelCount(self):
+        lx.notimpl()
+    def tileimg_GetTile(self,level,tileX,tileY):
+        lx.notimpl()
+    def tileimg_GetTileSize(self,level,tileX,tileY):
+        lx.notimpl()
+    def tileimg_GetLevelSize(self,level):
+        lx.notimpl()
+    def tileimg_DetermineTile(self,level,x,y):
+        lx.notimpl()
+    def tileimg_DeterminePixel(self,level,x,y):
+        lx.notimpl()
+
 class LayeredImageWrite(object):
     def limgw_AddLayer(self,image,name):
         lx.notimpl()
@@ -760,6 +734,34 @@ class LayeredImageWrite(object):
     def limgw_SetBlending(self,index,blend,mode):
         lx.notimpl()
     def limgw_AddAttribute(self,name,type):
+        lx.notimpl()
+
+class ImageBlockCodec(object):
+    # Compress skipped
+    # Free skipped
+    # Decompress skipped
+    pass
+
+class LayeredImage(object):
+    def limg_Size(self):
+        lx.notimpl()
+    def limg_Count(self):
+        lx.notimpl()
+    def limg_Image(self,index):
+        lx.notimpl()
+    def limg_Name(self,index):
+        lx.notimpl()
+    def limg_Type(self,index):
+        lx.notimpl()
+    def limg_Offset(self,index):
+        lx.notimpl()
+    def limg_Blend(self,index):
+        lx.notimpl()
+    def limg_ChannelName(self,layerIndex,channelIndex):
+        lx.notimpl()
+    def limg_Parent(self,layerIndex):
+        lx.notimpl()
+    def limg_IsGroup(self,layerIndex):
         lx.notimpl()
 
 class ImageFilterMetrics(object):
@@ -777,18 +779,16 @@ class Image(object):
     def img_GetLine(self,y,type,buf):
         lx.notimpl()
 
-class TileImage(object):
-    def tileimg_LevelCount(self):
+class ImageWrite(object):
+    def imgw_Size(self):
         lx.notimpl()
-    def tileimg_GetTile(self,level,tileX,tileY):
+    def imgw_Format(self):
         lx.notimpl()
-    def tileimg_GetTileSize(self,level,tileX,tileY):
+    def imgw_AddAttribute(self,name,type):
         lx.notimpl()
-    def tileimg_GetLevelSize(self,level):
+    def imgw_SetPixel(self,x,y,type,pixel):
         lx.notimpl()
-    def tileimg_DetermineTile(self,level,x,y):
-        lx.notimpl()
-    def tileimg_DeterminePixel(self,level,x,y):
+    def imgw_SetLine(self,y,type,line):
         lx.notimpl()
 
 class ImageLevelSample(object):
@@ -802,23 +802,23 @@ class ImageLevelSample(object):
     def level_GetLine(self,level,y,buf):
         lx.notimpl()
 
-class ImageBlockCodec(object):
-    # Compress skipped
-    # Free skipped
-    # Decompress skipped
-    pass
+class ImageSegment(object):
+    def imgs_GetSegment(self,y,left,right,rgba):
+        lx.notimpl()
+    def imgs_SetSegment(self,y,left,right,type,line):
+        lx.notimpl()
 
-lx.bless(LayeredImage,":LayeredImage")
-lx.bless(ImageSegment,":ImageSegment")
-lx.bless(ImageWrite,":ImageWrite")
 lx.bless(Movie,":Movie")
 lx.bless(ImageFilter,":ImageFilter")
+lx.bless(TileImage,":TileImage")
 lx.bless(LayeredImageWrite,":LayeredImageWrite")
+lx.bless(ImageBlockCodec,":ImageBlockCodec")
+lx.bless(LayeredImage,":LayeredImage")
 lx.bless(ImageFilterMetrics,":ImageFilterMetrics")
 lx.bless(Image,":Image")
-lx.bless(TileImage,":TileImage")
+lx.bless(ImageWrite,":ImageWrite")
 lx.bless(ImageLevelSample,":ImageLevelSample")
-lx.bless(ImageBlockCodec,":ImageBlockCodec")
+lx.bless(ImageSegment,":ImageSegment")
 
 class ImageMonitor(object):
     def imon_Image(self,imageToAnalyze,frameBufferToAnalyze,bufferIndex,x1,y1,x2,y2,imageProcessingRead,processedThumbnail):
@@ -896,6 +896,18 @@ class Interviewer(object):
 lx.bless(Interviewer,":Interviewer")
 
 
+class Saver(object):
+    def sav_Verify(self,source,message):
+        lx.notimpl()
+    def sav_Save(self,source,filename,monitor):
+        lx.notimpl()
+
+class Monitor(object):
+    def mon_Initialize(self,count):
+        lx.notimpl()
+    def mon_Increment(self,count):
+        lx.notimpl()
+
 class LoaderInfo(object):
     def linf_TestClass(self,clsGUID):
         lx.notimpl()
@@ -906,10 +918,10 @@ class LoaderInfo(object):
     def linf_SetFormat(self,format):
         lx.notimpl()
 
-class Monitor(object):
-    def mon_Initialize(self,count):
+class StreamIO(object):
+    def io_Write(self,stream):
         lx.notimpl()
-    def mon_Increment(self,count):
+    def io_Read(self,stream):
         lx.notimpl()
 
 class Loader(object):
@@ -924,29 +936,11 @@ class Loader(object):
     def load_SpawnOptions(self):
         lx.notimpl()
 
-class StreamIO(object):
-    def io_Write(self,stream):
-        lx.notimpl()
-    def io_Read(self,stream):
-        lx.notimpl()
-
-class Saver(object):
-    def sav_Verify(self,source,message):
-        lx.notimpl()
-    def sav_Save(self,source,filename,monitor):
-        lx.notimpl()
-
-lx.bless(LoaderInfo,":LoaderInfo")
-lx.bless(Monitor,":Monitor")
-lx.bless(Loader,":Loader")
-lx.bless(StreamIO,":StreamIO")
 lx.bless(Saver,":Saver")
-
-class SceneSubset(object):
-    def scnsub_GetScene(self):
-        lx.notimpl()
-    def scnsub_GetCollection(self):
-        lx.notimpl()
+lx.bless(Monitor,":Monitor")
+lx.bless(LoaderInfo,":LoaderInfo")
+lx.bless(StreamIO,":StreamIO")
+lx.bless(Loader,":Loader")
 
 class InstanceAssets(object):
     def instass_Count(self):
@@ -960,20 +954,14 @@ class InstanceAssets(object):
     def instass_SetPath(self,ident,newPath):
         lx.notimpl()
 
-lx.bless(SceneSubset,":SceneSubset")
+class SceneSubset(object):
+    def scnsub_GetScene(self):
+        lx.notimpl()
+    def scnsub_GetCollection(self):
+        lx.notimpl()
+
 lx.bless(InstanceAssets,":InstanceAssets")
-
-class LocatorDest(object):
-    def locd_Item(self):
-        lx.notimpl()
-    def locd_Location(self):
-        lx.notimpl()
-
-class ItemTypeDest(object):
-    def ityped_Item(self):
-        lx.notimpl()
-    def ityped_Location(self):
-        lx.notimpl()
+lx.bless(SceneSubset,":SceneSubset")
 
 class MeshOpDest(object):
     def locd_Item(self):
@@ -1002,6 +990,18 @@ class ShaderDest(object):
     def locd_Location(self):
         lx.notimpl()
 
+class ItemTypeDest(object):
+    def ityped_Item(self):
+        lx.notimpl()
+    def ityped_Location(self):
+        lx.notimpl()
+
+class LocatorDest(object):
+    def locd_Item(self):
+        lx.notimpl()
+    def locd_Location(self):
+        lx.notimpl()
+
 class ChannelDest(object):
     def chand_Channel(self):
         lx.notimpl()
@@ -1012,11 +1012,11 @@ class ChannelDropPreview(object):
     def chandp_MarkChannel(self):
         lx.notimpl()
 
-lx.bless(LocatorDest,":LocatorDest")
-lx.bless(ItemTypeDest,":ItemTypeDest")
 lx.bless(MeshOpDest,":MeshOpDest")
 lx.bless(MeshDest,":MeshDest")
 lx.bless(ShaderDest,":ShaderDest")
+lx.bless(ItemTypeDest,":ItemTypeDest")
+lx.bless(LocatorDest,":LocatorDest")
 lx.bless(ChannelDest,":ChannelDest")
 lx.bless(ChannelDropPreview,":ChannelDropPreview")
 
@@ -1112,32 +1112,6 @@ class AudioWrite(object):
 lx.bless(Audio,":Audio")
 lx.bless(AudioWrite,":AudioWrite")
 
-class MeshMetaData(object):
-    def meta_Validate(self,mesh,xtra,change):
-        lx.notimpl()
-    def meta_FreePointData(self,data):
-        lx.notimpl()
-    def meta_FreePolygonData(self,data):
-        lx.notimpl()
-
-class MeshFilterBBox(object):
-    def mfbbox_Evaluate(self):
-        lx.notimpl()
-
-class MeshListener(object):
-    def ml_Destroy(self):
-        lx.notimpl()
-    def ml_Changes(self,event):
-        lx.notimpl()
-
-class MeshFilter(object):
-    def mfilt_Type(self):
-        lx.notimpl()
-    def mfilt_Evaluate(self,mesh,tracker):
-        lx.notimpl()
-    def mfilt_Generate(self):
-        lx.notimpl()
-
 class MeshOperation(object):
     def mop_Evaluate(self,mesh,type,mode):
         lx.notimpl()
@@ -1154,11 +1128,37 @@ class MeshOperation(object):
     def mop_Clone(self,target,source):
         lx.notimpl()
 
-lx.bless(MeshMetaData,":MeshMetaData")
-lx.bless(MeshFilterBBox,":MeshFilterBBox")
-lx.bless(MeshListener,":MeshListener")
-lx.bless(MeshFilter,":MeshFilter")
+class MeshMetaData(object):
+    def meta_Validate(self,mesh,xtra,change):
+        lx.notimpl()
+    def meta_FreePointData(self,data):
+        lx.notimpl()
+    def meta_FreePolygonData(self,data):
+        lx.notimpl()
+
+class MeshListener(object):
+    def ml_Destroy(self):
+        lx.notimpl()
+    def ml_Changes(self,event):
+        lx.notimpl()
+
+class MeshFilterBBox(object):
+    def mfbbox_Evaluate(self):
+        lx.notimpl()
+
+class MeshFilter(object):
+    def mfilt_Type(self):
+        lx.notimpl()
+    def mfilt_Evaluate(self,mesh,tracker):
+        lx.notimpl()
+    def mfilt_Generate(self):
+        lx.notimpl()
+
 lx.bless(MeshOperation,":MeshOperation")
+lx.bless(MeshMetaData,":MeshMetaData")
+lx.bless(MeshListener,":MeshListener")
+lx.bless(MeshFilterBBox,":MeshFilterBBox")
+lx.bless(MeshFilter,":MeshFilter")
 
 class AutoSaveListener(object):
     def asl_AutoSaveNow(self):
@@ -1243,6 +1243,23 @@ class SceneItemListener(object):
     def sil_ItemChannelType(self,item,index):
         lx.notimpl()
 
+class SceneEvalListener(object):
+    def sel_ChannelValue(self,item,index):
+        lx.notimpl()
+    def sel_ChannelPreValue(self):
+        lx.notimpl()
+    def sel_ChannelPostValue(self):
+        lx.notimpl()
+
+class AssemblyAlias(object):
+    def alias_Test(self,assembly,other):
+        lx.notimpl()
+    # Configure skipped
+    def alias_SuperType(self):
+        lx.notimpl()
+    def alias_Flags(self):
+        lx.notimpl()
+
 class PackageInstance(object):
     def pins_Initialize(self,item,super):
         lx.notimpl()
@@ -1267,15 +1284,6 @@ class PackageInstance(object):
     def pins_Remove(self):
         lx.notimpl()
 
-class AssemblyAlias(object):
-    def alias_Test(self,assembly,other):
-        lx.notimpl()
-    # Configure skipped
-    def alias_SuperType(self):
-        lx.notimpl()
-    def alias_Flags(self):
-        lx.notimpl()
-
 class Package(object):
     def pkg_SetupChannels(self,addChan):
         lx.notimpl()
@@ -1288,35 +1296,11 @@ class Package(object):
     def pkg_CollectItems(self,collection,mode):
         lx.notimpl()
 
-class SceneEvalListener(object):
-    def sel_ChannelValue(self,item,index):
-        lx.notimpl()
-    def sel_ChannelPreValue(self):
-        lx.notimpl()
-    def sel_ChannelPostValue(self):
-        lx.notimpl()
-
 lx.bless(SceneItemListener,":SceneItemListener")
-lx.bless(PackageInstance,":PackageInstance")
-lx.bless(AssemblyAlias,":AssemblyAlias")
-lx.bless(Package,":Package")
 lx.bless(SceneEvalListener,":SceneEvalListener")
-
-class ParticleCoOperator(object):
-    def pcoi_Initialize(self,eval):
-        lx.notimpl()
-    def pcoi_Cleanup(self):
-        lx.notimpl()
-    def pcoi_Step(self,dT):
-        lx.notimpl()
-    def pcoi_Particle(self):
-        lx.notimpl()
-
-class ParticleItem(object):
-    def prti_Prepare(self,eval):
-        lx.notimpl()
-    def prti_Evaluate(self,attr,index):
-        lx.notimpl()
+lx.bless(AssemblyAlias,":AssemblyAlias")
+lx.bless(PackageInstance,":PackageInstance")
+lx.bless(Package,":Package")
 
 class ParticleFilter(object):
     def pfilt_Vertex(self,full):
@@ -1335,6 +1319,12 @@ class ParticleFilter(object):
     def pfilt_Particle(self,stage,vertex):
         lx.notimpl()
 
+class ParticleItem(object):
+    def prti_Prepare(self,eval):
+        lx.notimpl()
+    def prti_Evaluate(self,attr,index):
+        lx.notimpl()
+
 class PointCacheItem(object):
     def pcache_Prepare(self,eval):
         lx.notimpl()
@@ -1345,10 +1335,20 @@ class PointCacheItem(object):
     def pcache_Cleanup(self):
         lx.notimpl()
 
-lx.bless(ParticleCoOperator,":ParticleCoOperator")
-lx.bless(ParticleItem,":ParticleItem")
+class ParticleCoOperator(object):
+    def pcoi_Initialize(self,eval):
+        lx.notimpl()
+    def pcoi_Cleanup(self):
+        lx.notimpl()
+    def pcoi_Step(self,dT):
+        lx.notimpl()
+    def pcoi_Particle(self):
+        lx.notimpl()
+
 lx.bless(ParticleFilter,":ParticleFilter")
+lx.bless(ParticleItem,":ParticleItem")
 lx.bless(PointCacheItem,":PointCacheItem")
+lx.bless(ParticleCoOperator,":ParticleCoOperator")
 
 
 class PersistenceClient(object):
@@ -1360,20 +1360,6 @@ class PersistenceClient(object):
         lx.notimpl()
 
 lx.bless(PersistenceClient,":PersistenceClient")
-
-class MeshElementGroup(object):
-    def eltgrp_GroupCount(self):
-        lx.notimpl()
-    def eltgrp_GroupName(self,index):
-        lx.notimpl()
-    def eltgrp_GroupUserName(self,index):
-        lx.notimpl()
-    def eltgrp_TestPoint(self,index,point):
-        lx.notimpl()
-    def eltgrp_TestEdge(self,index,edge):
-        lx.notimpl()
-    def eltgrp_TestPolygon(self,index,polygon):
-        lx.notimpl()
 
 class SelectionOperation(object):
     def selop_SetMesh(self,mesh):
@@ -1389,8 +1375,22 @@ class SelectionOperation(object):
     def selop_Evaluate(self,type,state):
         lx.notimpl()
 
-lx.bless(MeshElementGroup,":MeshElementGroup")
+class MeshElementGroup(object):
+    def eltgrp_GroupCount(self):
+        lx.notimpl()
+    def eltgrp_GroupName(self,index):
+        lx.notimpl()
+    def eltgrp_GroupUserName(self,index):
+        lx.notimpl()
+    def eltgrp_TestPoint(self,index,point):
+        lx.notimpl()
+    def eltgrp_TestEdge(self,index,edge):
+        lx.notimpl()
+    def eltgrp_TestPolygon(self,index,polygon):
+        lx.notimpl()
+
 lx.bless(SelectionOperation,":SelectionOperation")
+lx.bless(MeshElementGroup,":MeshElementGroup")
 
 class Subdivision(object):
     def subdiv_Validate(self,mesh):
@@ -1478,6 +1478,24 @@ class ColorPreDest(object):
     def colpd_Apply(self):
         lx.notimpl()
 
+class Profile2DPreDest(object):
+    def p2pd_MoveTo(self,x,y):
+        lx.notimpl()
+    def p2pd_LineTo(self,x,y):
+        lx.notimpl()
+    def p2pd_CurveTo(self,x0,y0,x1,y1,x2,y2):
+        lx.notimpl()
+    def p2pd_NewPath(self):
+        lx.notimpl()
+    def p2pd_Closed(self,closed):
+        lx.notimpl()
+    def p2pd_Box(self):
+        lx.notimpl()
+    def p2pd_Count(self):
+        lx.notimpl()
+    def p2pd_SelectByIndex(self,index):
+        lx.notimpl()
+
 class Profile1DPreDest(object):
     def p1pd_MoveTo(self,x,y):
         lx.notimpl()
@@ -1499,14 +1517,6 @@ class Profile1DPreDest(object):
         lx.notimpl()
     # SelectByVertex skipped
 
-class MeshLayerPreDest(object):
-    def mlpd_Mesh(self):
-        lx.notimpl()
-    def mlpd_Transform(self):
-        lx.notimpl()
-    def mlpd_ShaderDest(self):
-        lx.notimpl()
-
 class ShaderPreDest(object):
     def spd_Scene(self):
         lx.notimpl()
@@ -1521,24 +1531,6 @@ class ShaderPreDest(object):
     def spd_Mode(self):
         lx.notimpl()
 
-class Profile2DPreDest(object):
-    def p2pd_MoveTo(self,x,y):
-        lx.notimpl()
-    def p2pd_LineTo(self,x,y):
-        lx.notimpl()
-    def p2pd_CurveTo(self,x0,y0,x1,y1,x2,y2):
-        lx.notimpl()
-    def p2pd_NewPath(self):
-        lx.notimpl()
-    def p2pd_Closed(self,closed):
-        lx.notimpl()
-    def p2pd_Box(self):
-        lx.notimpl()
-    def p2pd_Count(self):
-        lx.notimpl()
-    def p2pd_SelectByIndex(self,index):
-        lx.notimpl()
-
 class SceneItemPreDest(object):
     def sipd_Scene(self):
         lx.notimpl()
@@ -1551,12 +1543,26 @@ class SceneItemPreDest(object):
     def sipd_Orientation(self):
         lx.notimpl()
 
+class MeshLayerPreDest(object):
+    def mlpd_Mesh(self):
+        lx.notimpl()
+    def mlpd_Transform(self):
+        lx.notimpl()
+    def mlpd_ShaderDest(self):
+        lx.notimpl()
+
 lx.bless(ColorPreDest,":ColorPreDest")
-lx.bless(Profile1DPreDest,":Profile1DPreDest")
-lx.bless(MeshLayerPreDest,":MeshLayerPreDest")
-lx.bless(ShaderPreDest,":ShaderPreDest")
 lx.bless(Profile2DPreDest,":Profile2DPreDest")
+lx.bless(Profile1DPreDest,":Profile1DPreDest")
+lx.bless(ShaderPreDest,":ShaderPreDest")
 lx.bless(SceneItemPreDest,":SceneItemPreDest")
+lx.bless(MeshLayerPreDest,":MeshLayerPreDest")
+
+class PresetDo(object):
+    def pdo_Test(self,path):
+        lx.notimpl()
+    def pdo_Do(self,path):
+        lx.notimpl()
 
 class PresetType(object):
     def ptyp_Recognize(self,path):
@@ -1594,15 +1600,9 @@ class PresetMetrics(object):
     def pmet_Flags(self):
         lx.notimpl()
 
-class PresetDo(object):
-    def pdo_Test(self,path):
-        lx.notimpl()
-    def pdo_Do(self,path):
-        lx.notimpl()
-
+lx.bless(PresetDo,":PresetDo")
 lx.bless(PresetType,":PresetType")
 lx.bless(PresetMetrics,":PresetMetrics")
-lx.bless(PresetDo,":PresetDo")
 
 class PreviewNotifier(object):
     # Notify skipped
@@ -2037,8 +2037,14 @@ class SchemaDest(object):
 lx.bless(SchematicConnection,":SchematicConnection")
 lx.bless(SchemaDest,":SchemaDest")
 
-class AppActiveListener(object):
-    def activeevent_IsNowActive(self,isActive):
+class UserValueListener(object):
+    def uvl_Added(self,userValue):
+        lx.notimpl()
+    def uvl_Deleted(self,name):
+        lx.notimpl()
+    def uvl_DefChanged(self,userValue):
+        lx.notimpl()
+    def uvl_ValueChanged(self,userValue):
         lx.notimpl()
 
 class LineInterpreter(object):
@@ -2047,14 +2053,6 @@ class LineInterpreter(object):
     def lin_Prompt(self,type):
         lx.notimpl()
     def lin_Execute(self,line,execFlags,execution):
-        lx.notimpl()
-
-class TextScriptInterpreter(object):
-    def tsi_ValidateFileType(self,script,firstLine):
-        lx.notimpl()
-    def tsi_Validate(self,script,msg):
-        lx.notimpl()
-    def tsi_Run(self,script,execFlags,args,msg):
         lx.notimpl()
 
 class ScriptManager(object):
@@ -2079,50 +2077,6 @@ class ScriptManager(object):
     def scman_Run(self,script,execFlags,args,msg):
         lx.notimpl()
 
-class SessionListener(object):
-    def sesl_FirstWindowOpening(self):
-        lx.notimpl()
-    def sesl_BeforeStartupCommands(self):
-        lx.notimpl()
-    def sesl_SystemReady(self):
-        lx.notimpl()
-    def sesl_CheckQuitUI(self,quitWasAborted):
-        lx.notimpl()
-    def sesl_QuittingUI(self):
-        lx.notimpl()
-    def sesl_LastWindowClosed(self):
-        lx.notimpl()
-    def sesl_ShuttingDown(self):
-        lx.notimpl()
-
-class UserValueListener(object):
-    def uvl_Added(self,userValue):
-        lx.notimpl()
-    def uvl_Deleted(self,name):
-        lx.notimpl()
-    def uvl_DefChanged(self,userValue):
-        lx.notimpl()
-    def uvl_ValueChanged(self,userValue):
-        lx.notimpl()
-
-class ScriptLineEvent(object):
-    def slev_Index(self):
-        lx.notimpl()
-    def slev_Script(self):
-        lx.notimpl()
-
-class LineExecution(object):
-    def lin_CookedLine(self,text):
-        lx.notimpl()
-    def lin_Message(self,message):
-        lx.notimpl()
-    def lin_Results(self,valArray):
-        lx.notimpl()
-    def lin_ResultHints(self,hints):
-        lx.notimpl()
-    def lin_Info(self,text):
-        lx.notimpl()
-
 class Script(object):
     def scr_Hash(self):
         lx.notimpl()
@@ -2145,27 +2099,61 @@ class Script(object):
     def scr_SetBuffer(self,buffer,bufferLength):
         lx.notimpl()
 
-lx.bless(AppActiveListener,":AppActiveListener")
-lx.bless(LineInterpreter,":LineInterpreter")
-lx.bless(TextScriptInterpreter,":TextScriptInterpreter")
-lx.bless(ScriptManager,":ScriptManager")
-lx.bless(SessionListener,":SessionListener")
-lx.bless(UserValueListener,":UserValueListener")
-lx.bless(ScriptLineEvent,":ScriptLineEvent")
-lx.bless(LineExecution,":LineExecution")
-lx.bless(Script,":Script")
+class TextScriptInterpreter(object):
+    def tsi_ValidateFileType(self,script,firstLine):
+        lx.notimpl()
+    def tsi_Validate(self,script,msg):
+        lx.notimpl()
+    def tsi_Run(self,script,execFlags,args,msg):
+        lx.notimpl()
 
-class SelectionListener(object):
-    def selevent_Current(self,type):
+class AppActiveListener(object):
+    def activeevent_IsNowActive(self,isActive):
         lx.notimpl()
-    def selevent_Add(self,type,subtType):
+
+class LineExecution(object):
+    def lin_CookedLine(self,text):
         lx.notimpl()
-    def selevent_Remove(self,type,subtType):
+    def lin_Message(self,message):
         lx.notimpl()
-    def selevent_Time(self,time):
+    def lin_Results(self,valArray):
         lx.notimpl()
-    def selevent_TimeRange(self,type):
+    def lin_ResultHints(self,hints):
         lx.notimpl()
+    def lin_Info(self,text):
+        lx.notimpl()
+
+class SessionListener(object):
+    def sesl_FirstWindowOpening(self):
+        lx.notimpl()
+    def sesl_BeforeStartupCommands(self):
+        lx.notimpl()
+    def sesl_SystemReady(self):
+        lx.notimpl()
+    def sesl_CheckQuitUI(self,quitWasAborted):
+        lx.notimpl()
+    def sesl_QuittingUI(self):
+        lx.notimpl()
+    def sesl_LastWindowClosed(self):
+        lx.notimpl()
+    def sesl_ShuttingDown(self):
+        lx.notimpl()
+
+class ScriptLineEvent(object):
+    def slev_Index(self):
+        lx.notimpl()
+    def slev_Script(self):
+        lx.notimpl()
+
+lx.bless(UserValueListener,":UserValueListener")
+lx.bless(LineInterpreter,":LineInterpreter")
+lx.bless(ScriptManager,":ScriptManager")
+lx.bless(Script,":Script")
+lx.bless(TextScriptInterpreter,":TextScriptInterpreter")
+lx.bless(AppActiveListener,":AppActiveListener")
+lx.bless(LineExecution,":LineExecution")
+lx.bless(SessionListener,":SessionListener")
+lx.bless(ScriptLineEvent,":ScriptLineEvent")
 
 class SelectionType(object):
     def seltyp_Size(self):
@@ -2179,20 +2167,20 @@ class SelectionType(object):
     def seltyp_SubType(self,pkt):
         return 0
 
-lx.bless(SelectionListener,":SelectionListener")
-lx.bless(SelectionType,":SelectionType")
+class SelectionListener(object):
+    def selevent_Current(self,type):
+        lx.notimpl()
+    def selevent_Add(self,type,subtType):
+        lx.notimpl()
+    def selevent_Remove(self,type,subtType):
+        lx.notimpl()
+    def selevent_Time(self,time):
+        lx.notimpl()
+    def selevent_TimeRange(self,type):
+        lx.notimpl()
 
-class VectorKnotPacketTranslation(object):
-    # Knot skipped
-    def knottrans_Path(self,packet):
-        lx.notimpl()
-    def knottrans_Shape(self,packet):
-        lx.notimpl()
-    def knottrans_Canvas(self,packet):
-        lx.notimpl()
-    def knottrans_Item(self,packet):
-        lx.notimpl()
-    # Packet skipped
+lx.bless(SelectionType,":SelectionType")
+lx.bless(SelectionListener,":SelectionListener")
 
 class VectorPathPacketTranslation(object):
     def pathtrans_Path(self,packet):
@@ -2216,12 +2204,35 @@ class VectorShapePacketTranslation(object):
     def shapetrans_Packet(self,shape):
         lx.notimpl()
 
-lx.bless(VectorKnotPacketTranslation,":VectorKnotPacketTranslation")
+class VectorKnotPacketTranslation(object):
+    # Knot skipped
+    def knottrans_Path(self,packet):
+        lx.notimpl()
+    def knottrans_Shape(self,packet):
+        lx.notimpl()
+    def knottrans_Canvas(self,packet):
+        lx.notimpl()
+    def knottrans_Item(self,packet):
+        lx.notimpl()
+    # Packet skipped
+
 lx.bless(VectorPathPacketTranslation,":VectorPathPacketTranslation")
 lx.bless(VectorShapePacketTranslation,":VectorShapePacketTranslation")
+lx.bless(VectorKnotPacketTranslation,":VectorKnotPacketTranslation")
 
-class NeedContext(object):
-    def need_SetContext(self,app):
+class Module(object):
+    def mod_Generate(self,name,iid):
+        lx.notimpl()
+    def mod_GetTags(self,name,iid):
+        lx.notimpl()
+
+class TagDescription(object):
+    def tag_Count(self):
+        lx.notimpl()
+    # Describe skipped
+
+class ServiceExtension(object):
+    def ser_Dummy(self):
         lx.notimpl()
 
 class Factory(object):
@@ -2241,26 +2252,32 @@ class Factory(object):
     def fac_Spawn(self):
         lx.notimpl()
 
-class Module(object):
-    def mod_Generate(self,name,iid):
-        lx.notimpl()
-    def mod_GetTags(self,name,iid):
+class NeedContext(object):
+    def need_SetContext(self,app):
         lx.notimpl()
 
-class ServiceExtension(object):
-    def ser_Dummy(self):
-        lx.notimpl()
-
-class TagDescription(object):
-    def tag_Count(self):
-        lx.notimpl()
-    # Describe skipped
-
-lx.bless(NeedContext,":NeedContext")
-lx.bless(Factory,":Factory")
 lx.bless(Module,":Module")
-lx.bless(ServiceExtension,":ServiceExtension")
 lx.bless(TagDescription,":TagDescription")
+lx.bless(ServiceExtension,":ServiceExtension")
+lx.bless(Factory,":Factory")
+lx.bless(NeedContext,":NeedContext")
+
+class ValueTexture(object):
+    def vtx_SetupChannels(self,addChan):
+        lx.notimpl()
+    def vtx_LinkChannels(self,eval,item):
+        lx.notimpl()
+    def vtx_LinkSampleChannels(self,nodalEtor,item):
+        lx.notimpl()
+    # ReadChannels skipped
+    # Customize skipped
+    def vtx_Setup(self,data):
+        lx.notimpl()
+    # Evaluate skipped
+    def vtx_Cleanup(self,data):
+        lx.notimpl()
+    def vtx_IsSampleDriven(self):
+        return (lx.symbol.e_FALSE,0)
 
 class CompShader(object):
     def csh_SetupChannels(self,addChan):
@@ -2279,23 +2296,6 @@ class CompShader(object):
         lx.notimpl()
     def csh_Flags(self):
         lx.notimpl()
-
-class ValueTexture(object):
-    def vtx_SetupChannels(self,addChan):
-        lx.notimpl()
-    def vtx_LinkChannels(self,eval,item):
-        lx.notimpl()
-    def vtx_LinkSampleChannels(self,nodalEtor,item):
-        lx.notimpl()
-    # ReadChannels skipped
-    # Customize skipped
-    def vtx_Setup(self,data):
-        lx.notimpl()
-    # Evaluate skipped
-    def vtx_Cleanup(self,data):
-        lx.notimpl()
-    def vtx_IsSampleDriven(self):
-        return (lx.symbol.e_FALSE,0)
 
 class CustomMaterial(object):
     def cmt_SetupChannels(self,addChan):
@@ -2329,8 +2329,8 @@ class CustomMaterial(object):
     def cmt_Flags(self):
         lx.notimpl()
 
-lx.bless(CompShader,":CompShader")
 lx.bless(ValueTexture,":ValueTexture")
+lx.bless(CompShader,":CompShader")
 lx.bless(CustomMaterial,":CustomMaterial")
 
 
@@ -2382,34 +2382,10 @@ lx.bless(FileDialogClient,":FileDialogClient")
 lx.bless(ColorDialog,":ColorDialog")
 lx.bless(AsyncMonitorInfo,":AsyncMonitorInfo")
 
-class GLShadingListener(object):
-    def gls_ShadingUpdate(self,item):
-        lx.notimpl()
-    def gls_DisplacementUpdate(self,item):
-        lx.notimpl()
-    def gls_FurUpdate(self,item):
-        lx.notimpl()
-
 class SurfaceBin(object):
     def surfbin_GetBBox(self):
         lx.notimpl()
     def surfbin_FrontBBox(self,pos,dir):
-        lx.notimpl()
-
-class SurfaceItem(object):
-    def isurf_GetSurface(self,chanRead,morph):
-        lx.notimpl()
-    def isurf_Prepare(self,eval):
-        lx.notimpl()
-    def isurf_Evaluate(self,attr,index):
-        lx.notimpl()
-
-class CurveGroup(object):
-    def cgrp_GetBBox(self):
-        lx.notimpl()
-    def cgrp_Count(self):
-        lx.notimpl()
-    def cgrp_ByIndex(self,index):
         lx.notimpl()
 
 class Curve(object):
@@ -2452,6 +2428,14 @@ class Curve(object):
     def curve_WalkByAngle(self,start,end,angle,visitor):
         lx.notimpl()
 
+class GLShadingListener(object):
+    def gls_ShadingUpdate(self,item):
+        lx.notimpl()
+    def gls_DisplacementUpdate(self,item):
+        lx.notimpl()
+    def gls_FurUpdate(self,item):
+        lx.notimpl()
+
 class Surface(object):
     def surf_GetBBox(self):
         lx.notimpl()
@@ -2469,12 +2453,113 @@ class Surface(object):
     def surf_GLCount(self):
         lx.notimpl()
 
-lx.bless(GLShadingListener,":GLShadingListener")
+class CurveGroup(object):
+    def cgrp_GetBBox(self):
+        lx.notimpl()
+    def cgrp_Count(self):
+        lx.notimpl()
+    def cgrp_ByIndex(self,index):
+        lx.notimpl()
+
+class SurfaceItem(object):
+    def isurf_GetSurface(self,chanRead,morph):
+        lx.notimpl()
+    def isurf_Prepare(self,eval):
+        lx.notimpl()
+    def isurf_Evaluate(self,attr,index):
+        lx.notimpl()
+
 lx.bless(SurfaceBin,":SurfaceBin")
-lx.bless(SurfaceItem,":SurfaceItem")
-lx.bless(CurveGroup,":CurveGroup")
 lx.bless(Curve,":Curve")
+lx.bless(GLShadingListener,":GLShadingListener")
 lx.bless(Surface,":Surface")
+lx.bless(CurveGroup,":CurveGroup")
+lx.bless(SurfaceItem,":SurfaceItem")
+
+class TableauInstance(object):
+    def tins_Properties(self,vecstack):
+        lx.notimpl()
+    def tins_GetTransform(self,endPoint):
+        lx.notimpl()
+    def tins_GetDissolve(self):
+        lx.notimpl()
+    def tins_ParticleDescription(self):
+        lx.notimpl()
+    def tins_ParticleArray(self):
+        lx.notimpl()
+
+class TableauListener(object):
+    def tli_ChannelChange(self,tableau,item,channel):
+        lx.notimpl()
+    def tli_FlushElements(self,tableau):
+        lx.notimpl()
+    def tli_TableauDestroy(self,tableau):
+        lx.notimpl()
+
+class TriangleSoup(object):
+    def soup_TestBox(self,bbox):
+        return 1
+    def soup_Segment(self,segID,type):
+        return True
+    def soup_Vertex(self,vertex):
+        lx.notimpl()
+    def soup_Polygon(self,v0,v1,v2):
+        lx.notimpl()
+    def soup_Connect(self,type):
+        lx.notimpl()
+
+class Instanceable(object):
+    def instable_Compare(self,other):
+        lx.notimpl()
+    def instable_AddElements(self,tableau,instT0,instT1):
+        lx.notimpl()
+    def instable_GetSurface(self):
+        lx.notimpl()
+
+class TableauProxy(object):
+    def tpro_Bound(self):
+        lx.notimpl()
+    def tpro_FeatureCount(self,type):
+        return 0
+    def tpro_FeatureByIndex(self,type,index):
+        raise RuntimeError('bad result: OUTOFBOUNDS')
+    def tpro_SetVertex(self,vdesc):
+        lx.notimpl()
+    def tpro_Sample(self,bbox,tableau):
+        lx.notimpl()
+
+class TableauLight(object):
+    def tlgt_Bound(self):
+        lx.notimpl()
+    def tlgt_FeatureCount(self,type):
+        return 0
+    def tlgt_FeatureByIndex(self,type,index):
+        raise RuntimeError('bad result: OUTOFBOUNDS')
+    def tlgt_SetVertex(self,vdesc):
+        lx.notimpl()
+    def tlgt_Sample(self,u,v,dir,t):
+        lx.notimpl()
+    def tlgt_Geometry(self,gc):
+        lx.notimpl()
+    # Emit skipped
+    def tlgt_ShadowMap(self):
+        lx.notimpl()
+
+class TableauSurface(object):
+    def tsrf_Bound(self):
+        lx.notimpl()
+    def tsrf_FeatureCount(self,type):
+        return 0
+    def tsrf_FeatureByIndex(self,type,index):
+        raise RuntimeError('bad result: OUTOFBOUNDS')
+    def tsrf_SetVertex(self,vdesc):
+        lx.notimpl()
+    def tsrf_Sample(self,bbox,scale,trisoup):
+        lx.notimpl()
+    def tsrf_Padding(self):
+        lx.notimpl()
+    def tsrf_SegmentBox(self,segID):
+        lx.notimpl()
 
 class TableauSource(object):
     def tsrc_Elements(self,tableau):
@@ -2498,83 +2583,6 @@ class TableauShader(object):
     def tsha_Slice(self,vtOutput,tvDesc):
         lx.notimpl()
 
-class TableauInstance(object):
-    def tins_Properties(self,vecstack):
-        lx.notimpl()
-    def tins_GetTransform(self,endPoint):
-        lx.notimpl()
-    def tins_GetDissolve(self):
-        lx.notimpl()
-    def tins_ParticleDescription(self):
-        lx.notimpl()
-    def tins_ParticleArray(self):
-        lx.notimpl()
-
-class TriangleSoup(object):
-    def soup_TestBox(self,bbox):
-        return 1
-    def soup_Segment(self,segID,type):
-        return True
-    def soup_Vertex(self,vertex):
-        lx.notimpl()
-    def soup_Polygon(self,v0,v1,v2):
-        lx.notimpl()
-    def soup_Connect(self,type):
-        lx.notimpl()
-
-class TableauLight(object):
-    def tlgt_Bound(self):
-        lx.notimpl()
-    def tlgt_FeatureCount(self,type):
-        return 0
-    def tlgt_FeatureByIndex(self,type,index):
-        raise RuntimeError('bad result: OUTOFBOUNDS')
-    def tlgt_SetVertex(self,vdesc):
-        lx.notimpl()
-    def tlgt_Sample(self,u,v,dir,t):
-        lx.notimpl()
-    def tlgt_Geometry(self,gc):
-        lx.notimpl()
-    # Emit skipped
-    def tlgt_ShadowMap(self):
-        lx.notimpl()
-
-class TableauProxy(object):
-    def tpro_Bound(self):
-        lx.notimpl()
-    def tpro_FeatureCount(self,type):
-        return 0
-    def tpro_FeatureByIndex(self,type,index):
-        raise RuntimeError('bad result: OUTOFBOUNDS')
-    def tpro_SetVertex(self,vdesc):
-        lx.notimpl()
-    def tpro_Sample(self,bbox,tableau):
-        lx.notimpl()
-
-class TableauSurface(object):
-    def tsrf_Bound(self):
-        lx.notimpl()
-    def tsrf_FeatureCount(self,type):
-        return 0
-    def tsrf_FeatureByIndex(self,type,index):
-        raise RuntimeError('bad result: OUTOFBOUNDS')
-    def tsrf_SetVertex(self,vdesc):
-        lx.notimpl()
-    def tsrf_Sample(self,bbox,scale,trisoup):
-        lx.notimpl()
-    def tsrf_Padding(self):
-        lx.notimpl()
-    def tsrf_SegmentBox(self,segID):
-        lx.notimpl()
-
-class TableauListener(object):
-    def tli_ChannelChange(self,tableau,item,channel):
-        lx.notimpl()
-    def tli_FlushElements(self,tableau):
-        lx.notimpl()
-    def tli_TableauDestroy(self,tableau):
-        lx.notimpl()
-
 class TableauVolume(object):
     def tvol_Bound(self):
         lx.notimpl()
@@ -2595,24 +2603,16 @@ class TableauVolume(object):
     def tvol_Density(self,densitySlice,sv,raycastObj,pos,worldPos):
         lx.notimpl()
 
-class Instanceable(object):
-    def instable_Compare(self,other):
-        lx.notimpl()
-    def instable_AddElements(self,tableau,instT0,instT1):
-        lx.notimpl()
-    def instable_GetSurface(self):
-        lx.notimpl()
-
+lx.bless(TableauInstance,":TableauInstance")
+lx.bless(TableauListener,":TableauListener")
+lx.bless(TriangleSoup,":TriangleSoup")
+lx.bless(Instanceable,":Instanceable")
+lx.bless(TableauProxy,":TableauProxy")
+lx.bless(TableauLight,":TableauLight")
+lx.bless(TableauSurface,":TableauSurface")
 lx.bless(TableauSource,":TableauSource")
 lx.bless(TableauShader,":TableauShader")
-lx.bless(TableauInstance,":TableauInstance")
-lx.bless(TriangleSoup,":TriangleSoup")
-lx.bless(TableauLight,":TableauLight")
-lx.bless(TableauProxy,":TableauProxy")
-lx.bless(TableauSurface,":TableauSurface")
-lx.bless(TableauListener,":TableauListener")
 lx.bless(TableauVolume,":TableauVolume")
-lx.bless(Instanceable,":Instanceable")
 
 class WorkList(object):
     def work_IsEmpty(self):
@@ -2622,27 +2622,6 @@ class WorkList(object):
     def work_Split(self,mode):
         lx.notimpl()
     def work_Clear(self):
-        lx.notimpl()
-
-class ThreadRangeWorker(object):
-    def rngw_Execute(self,index,sharedData):
-        lx.notimpl()
-
-class ThreadSlotClient(object):
-    # Alloc skipped
-    def tsc_Free(self,value):
-        lx.notimpl()
-
-class ThreadJob(object):
-    def job_Execute(self):
-        lx.notimpl()
-
-class SharedWork(object):
-    def share_Evaluate(self):
-        lx.notimpl()
-    def share_Spawn(self):
-        lx.notimpl()
-    def share_Share(self,other,split):
         lx.notimpl()
 
 class Waterfall(object):
@@ -2657,12 +2636,33 @@ class Waterfall(object):
     def wfall_Advance(self):
         lx.notimpl()
 
+class ThreadSlotClient(object):
+    # Alloc skipped
+    def tsc_Free(self,value):
+        lx.notimpl()
+
+class ThreadRangeWorker(object):
+    def rngw_Execute(self,index,sharedData):
+        lx.notimpl()
+
+class ThreadJob(object):
+    def job_Execute(self):
+        lx.notimpl()
+
+class SharedWork(object):
+    def share_Evaluate(self):
+        lx.notimpl()
+    def share_Spawn(self):
+        lx.notimpl()
+    def share_Share(self,other,split):
+        lx.notimpl()
+
 lx.bless(WorkList,":WorkList")
-lx.bless(ThreadRangeWorker,":ThreadRangeWorker")
+lx.bless(Waterfall,":Waterfall")
 lx.bless(ThreadSlotClient,":ThreadSlotClient")
+lx.bless(ThreadRangeWorker,":ThreadRangeWorker")
 lx.bless(ThreadJob,":ThreadJob")
 lx.bless(SharedWork,":SharedWork")
-lx.bless(Waterfall,":Waterfall")
 
 class DTBBadgeOverride(object):
     def dtbbo_BadgesSupported(self,entry):
@@ -2689,13 +2689,6 @@ class DTBGroupSortOverride(object):
 lx.bless(DTBBadgeOverride,":DTBBadgeOverride")
 lx.bless(DTBGroupSortOverride,":DTBGroupSortOverride")
 
-class ParticleGeneratorPacket(object):
-    def partgen_Count(self,vts):
-        return 0
-    # Particle skipped
-    # InitialParticleSet skipped
-    # HintBoxSet skipped
-
 class ToolOperation(object):
     def top_Evaluate(self,vts):
         lx.notimpl()
@@ -2703,6 +2696,13 @@ class ToolOperation(object):
         lx.notimpl()
     def top_Blend(self,other,blend):
         lx.notimpl()
+
+class ParticleGeneratorPacket(object):
+    def partgen_Count(self,vts):
+        return 0
+    # Particle skipped
+    # InitialParticleSet skipped
+    # HintBoxSet skipped
 
 class PathGeneratorPacket(object):
     def pathgen_Value(self,vts,t):
@@ -2746,8 +2746,8 @@ class Tool(object):
     def tool_UpdateOp(self,toolop):
         lx.notimpl()
 
-lx.bless(ParticleGeneratorPacket,":ParticleGeneratorPacket")
 lx.bless(ToolOperation,":ToolOperation")
+lx.bless(ParticleGeneratorPacket,":ParticleGeneratorPacket")
 lx.bless(PathGeneratorPacket,":PathGeneratorPacket")
 lx.bless(Tool,":Tool")
 
@@ -2880,6 +2880,40 @@ class Undo(object):
 
 lx.bless(Undo,":Undo")
 
+class Message(object):
+    def msg_Code(self):
+        lx.notimpl()
+    def msg_SetCode(self,code):
+        lx.notimpl()
+    def msg_SetMessage(self,table,name,id):
+        lx.notimpl()
+    def msg_SetArgumentInt(self,arg,value):
+        lx.notimpl()
+    def msg_SetArgumentFloat(self,arg,value):
+        lx.notimpl()
+    def msg_SetArgumentString(self,arg,string):
+        lx.notimpl()
+    def msg_SetArgumentObject(self,arg,object):
+        lx.notimpl()
+    def msg_Reset(self):
+        lx.notimpl()
+    def msg_Table(self):
+        lx.notimpl()
+    def msg_Name(self):
+        lx.notimpl()
+    def msg_SetMessageResult(self,id):
+        lx.notimpl()
+
+class ValueConversion(object):
+    def conv_Test(self,fromType,toType):
+        lx.notimpl()
+    def conv_Convert(self,from_obj,fromType,to_obj,toType):
+        lx.notimpl()
+
+class Visitor(object):
+    def vis_Evaluate(self):
+        lx.notimpl()
+
 class ScriptQuery(object):
     def sq_Select(self,attribute,which):
         lx.notimpl()
@@ -2890,10 +2924,32 @@ class ScriptQuery(object):
     def sq_TypeName(self,attribute):
         lx.notimpl()
 
-class StringConversionNice(object):
-    def nicestr_Encode(self):
+class Attributes(object):
+    def attr_Count(self):
+        return 0
+    def attr_Name(self,index):
         lx.notimpl()
-    def nicestr_Decode(self,buf):
+    def attr_Lookup(self,name):
+        lx.notimpl()
+    def attr_Type(self,index):
+        lx.notimpl()
+    def attr_TypeName(self,index):
+        lx.notimpl()
+    def attr_Hints(self,index):
+        return 0
+    def attr_Value(self,index,writeOK):
+        lx.notimpl()
+    def attr_GetInt(self,index):
+        lx.notimpl()
+    def attr_SetInt(self,index,val):
+        lx.notimpl()
+    def attr_GetFlt(self,index):
+        lx.notimpl()
+    def attr_SetFlt(self,index,val):
+        lx.notimpl()
+    def attr_GetString(self,index):
+        lx.notimpl()
+    def attr_SetString(self,index,val):
         lx.notimpl()
 
 class ValueArray(object):
@@ -2936,16 +2992,6 @@ class ValueArray(object):
     def va_SetString(self,index,value):
         lx.notimpl()
 
-class StringTag(object):
-    def stag_Get(self,type):
-        lx.notimpl()
-    def stag_Set(self,type,tag):
-        lx.notimpl()
-    def stag_Count(self):
-        lx.notimpl()
-    def stag_ByIndex(self,index):
-        lx.notimpl()
-
 class Value(object):
     def val_Clone(self):
         lx.notimpl()
@@ -2974,14 +3020,20 @@ class Value(object):
     def val_Intrinsic(self):
         return 0
 
-class Visitor(object):
-    def vis_Evaluate(self):
-        lx.notimpl()
-
 class StringConversion(object):
     def str_Encode(self):
         lx.notimpl()
     def str_Decode(self,buf):
+        lx.notimpl()
+
+class StringTag(object):
+    def stag_Get(self,type):
+        lx.notimpl()
+    def stag_Set(self,type,tag):
+        lx.notimpl()
+    def stag_Count(self):
+        lx.notimpl()
+    def stag_ByIndex(self,index):
         lx.notimpl()
 
 class ValueMath(object):
@@ -2996,75 +3048,23 @@ class ValueMath(object):
     def math_Blend(self,other,blend):
         lx.notimpl()
 
-class Message(object):
-    def msg_Code(self):
+class StringConversionNice(object):
+    def nicestr_Encode(self):
         lx.notimpl()
-    def msg_SetCode(self,code):
-        lx.notimpl()
-    def msg_SetMessage(self,table,name,id):
-        lx.notimpl()
-    def msg_SetArgumentInt(self,arg,value):
-        lx.notimpl()
-    def msg_SetArgumentFloat(self,arg,value):
-        lx.notimpl()
-    def msg_SetArgumentString(self,arg,string):
-        lx.notimpl()
-    def msg_SetArgumentObject(self,arg,object):
-        lx.notimpl()
-    def msg_Reset(self):
-        lx.notimpl()
-    def msg_Table(self):
-        lx.notimpl()
-    def msg_Name(self):
-        lx.notimpl()
-    def msg_SetMessageResult(self,id):
+    def nicestr_Decode(self,buf):
         lx.notimpl()
 
-class ValueConversion(object):
-    def conv_Test(self,fromType,toType):
-        lx.notimpl()
-    def conv_Convert(self,from_obj,fromType,to_obj,toType):
-        lx.notimpl()
-
-class Attributes(object):
-    def attr_Count(self):
-        return 0
-    def attr_Name(self,index):
-        lx.notimpl()
-    def attr_Lookup(self,name):
-        lx.notimpl()
-    def attr_Type(self,index):
-        lx.notimpl()
-    def attr_TypeName(self,index):
-        lx.notimpl()
-    def attr_Hints(self,index):
-        return 0
-    def attr_Value(self,index,writeOK):
-        lx.notimpl()
-    def attr_GetInt(self,index):
-        lx.notimpl()
-    def attr_SetInt(self,index,val):
-        lx.notimpl()
-    def attr_GetFlt(self,index):
-        lx.notimpl()
-    def attr_SetFlt(self,index,val):
-        lx.notimpl()
-    def attr_GetString(self,index):
-        lx.notimpl()
-    def attr_SetString(self,index,val):
-        lx.notimpl()
-
-lx.bless(ScriptQuery,":ScriptQuery")
-lx.bless(StringConversionNice,":StringConversionNice")
-lx.bless(ValueArray,":ValueArray")
-lx.bless(StringTag,":StringTag")
-lx.bless(Value,":Value")
-lx.bless(Visitor,":Visitor")
-lx.bless(StringConversion,":StringConversion")
-lx.bless(ValueMath,":ValueMath")
 lx.bless(Message,":Message")
 lx.bless(ValueConversion,":ValueConversion")
+lx.bless(Visitor,":Visitor")
+lx.bless(ScriptQuery,":ScriptQuery")
 lx.bless(Attributes,":Attributes")
+lx.bless(ValueArray,":ValueArray")
+lx.bless(Value,":Value")
+lx.bless(StringConversion,":StringConversion")
+lx.bless(StringTag,":StringTag")
+lx.bless(ValueMath,":ValueMath")
+lx.bless(StringConversionNice,":StringConversionNice")
 
 class Variation(object):
     def var_TestItem(self,item,chanRead):
@@ -3132,22 +3132,6 @@ lx.bless(VectorPacket,":VectorPacket")
 lx.bless(PacketEffect,":PacketEffect")
 lx.bless(TextureEffect,":TextureEffect")
 
-class VectorListener(object):
-    def vtl_Destroy(self):
-        lx.notimpl()
-    def vtl_ShapeAdd(self,shape):
-        lx.notimpl()
-    def vtl_ShapeRemove(self,shape):
-        lx.notimpl()
-    def vtl_ShapeStyle(self,shape,name):
-        lx.notimpl()
-    def vtl_PathAdd(self,shape,path):
-        lx.notimpl()
-    def vtl_PathRemove(self,shape,path):
-        lx.notimpl()
-    def vtl_KnotPosition(self,shape,path):
-        lx.notimpl()
-
 class VectorShape(object):
     def shape_ShapeCount(self):
         lx.notimpl()
@@ -3188,10 +3172,26 @@ class VectorPath(object):
     def path_Pos(self):
         lx.notimpl()
 
-lx.bless(VectorListener,":VectorListener")
+class VectorListener(object):
+    def vtl_Destroy(self):
+        lx.notimpl()
+    def vtl_ShapeAdd(self,shape):
+        lx.notimpl()
+    def vtl_ShapeRemove(self,shape):
+        lx.notimpl()
+    def vtl_ShapeStyle(self,shape,name):
+        lx.notimpl()
+    def vtl_PathAdd(self,shape,path):
+        lx.notimpl()
+    def vtl_PathRemove(self,shape,path):
+        lx.notimpl()
+    def vtl_KnotPosition(self,shape,path):
+        lx.notimpl()
+
 lx.bless(VectorShape,":VectorShape")
 lx.bless(VectorCanvas,":VectorCanvas")
 lx.bless(VectorPath,":VectorPath")
+lx.bless(VectorListener,":VectorListener")
 
 
 class ViewObject(object):
@@ -3231,6 +3231,24 @@ class ViewItem3D(object):
     def vitm_Test(self,chanRead,strokeDraw,selectionFlags,itemColor):
         lx.notimpl()
 
+class VirtualModel(object):
+    def vmodel_Flags(self):
+        return lx.symbol.fTMOD_DRAW_3D
+    def vmodel_Draw(self,stroke):
+        lx.notimpl()
+    def vmodel_Test(self,stroke):
+        lx.notimpl()
+    def vmodel_Track(self,part):
+        lx.notimpl()
+    def vmodel_Down(self,vts):
+        lx.notimpl()
+    def vmodel_Move(self,vts):
+        lx.notimpl()
+    def vmodel_Up(self,vts):
+        lx.notimpl()
+    def vmodel_Tooltip(self,part):
+        return NULL
+
 class ToolModel(object):
     def tmod_Flags(self):
         return lx.symbol.fTMOD_DRAW_3D
@@ -3269,24 +3287,6 @@ class ToolModel(object):
     def tmod_Tooltip(self,vts,part):
         return 0
 
-class VirtualModel(object):
-    def vmodel_Flags(self):
-        return lx.symbol.fTMOD_DRAW_3D
-    def vmodel_Draw(self,stroke):
-        lx.notimpl()
-    def vmodel_Test(self,stroke):
-        lx.notimpl()
-    def vmodel_Track(self,part):
-        lx.notimpl()
-    def vmodel_Down(self,vts):
-        lx.notimpl()
-    def vmodel_Move(self,vts):
-        lx.notimpl()
-    def vmodel_Up(self,vts):
-        lx.notimpl()
-    def vmodel_Tooltip(self,part):
-        return NULL
-
 class NavigationListener(object):
     def nav_Down(self,view,item):
         lx.notimpl()
@@ -3304,9 +3304,19 @@ class NavigationListener(object):
         lx.notimpl()
 
 lx.bless(ViewItem3D,":ViewItem3D")
-lx.bless(ToolModel,":ToolModel")
 lx.bless(VirtualModel,":VirtualModel")
+lx.bless(ToolModel,":ToolModel")
 lx.bless(NavigationListener,":NavigationListener")
+
+class Raymarch(object):
+    # AddVolume skipped
+    # AddSurface skipped
+    def rmrch_GetOpacity(self,vector,dist):
+        lx.notimpl()
+    def rmrch_ShaderEvaluate(self,vector,shader):
+        lx.notimpl()
+    def rmrch_Jitter1D(self,vector):
+        lx.notimpl()
 
 class Voxel(object):
     def voxel_FeatureCount(self):
@@ -3324,18 +3334,8 @@ class Voxel(object):
     # RayIntersect skipped
     # RayRelease skipped
 
-class Raymarch(object):
-    # AddVolume skipped
-    # AddSurface skipped
-    def rmrch_GetOpacity(self,vector,dist):
-        lx.notimpl()
-    def rmrch_ShaderEvaluate(self,vector,shader):
-        lx.notimpl()
-    def rmrch_Jitter1D(self,vector):
-        lx.notimpl()
-
-lx.bless(Voxel,":Voxel")
 lx.bless(Raymarch,":Raymarch")
+lx.bless(Voxel,":Voxel")
 
 class GLViewportClient(object):
     def glclient_Invalidate(self):

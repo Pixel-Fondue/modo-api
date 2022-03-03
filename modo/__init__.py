@@ -10,7 +10,7 @@ coding tasks easier for TDs.
 
 """
 
-__version__ = "15.1.1"
+__version__ = "15.1.2"
 
 import lx
 from . import dialogs

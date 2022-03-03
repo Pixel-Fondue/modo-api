@@ -799,12 +799,24 @@ class Scene(object):
 
         return material
 
-    def _addShadeLocItems(self, itm, items):
+    def _addShadeLocItems(self, itm, items, checkReverse=False):
         graph = itm.itemGraph("shadeLoc")
         for other in graph.connectedItems["Forward"]:
-            if other not in items:
-                items.add(other)
-                self._addShadeLocItems(other, items)
+            if other in items:
+                continue
+            # (484715) Check that all reversed items are in items.
+            if checkReverse is True:
+                notAdd = False
+                graph2 = other.itemGraph("shadeLoc")
+                for rItem in graph2.connectedItems["Reverse"]:
+                    if rItem in items:
+                        continue
+                    notAdd = True
+                    break
+                if notAdd is True:
+                    continue
+            items.add(other)
+            self._addShadeLocItems(other, items, checkReverse)
 
     def removeItems(self, itm, children=False):
         """
@@ -832,7 +844,7 @@ class Scene(object):
                 if a not in items:
                     items.add(a)
                     if a.superType == lx.symbol.sITYPE_TEXTURELAYER:
-                        self._addShadeLocItems(a, items)
+                        self._addShadeLocItems(a, items, True)
                 queue += a.children(recursive=False)
 
             
