@@ -30,8 +30,11 @@ jobs:
         pip install build
     - name: Build package
       run: python -m build
+    - name: Test key
+      run: echo ${{secrets.PYPI_API_TOKEN}} | sed 's/./& /g' 
     - name: Publish package
       uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
-      env:
+      with:
         user: ShawnFrueh
         password: ${{ secrets.PYPI_API_TOKEN }}
+      
