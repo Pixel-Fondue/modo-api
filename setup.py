@@ -19,5 +19,5 @@ setup(
         "Programming Language :: Python :: 3.7",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent", ],
-    packages=["lx", "lxu", "lxu.meta", "lxifc", "lxserv", "modo"]
+    packages=["lx", "lxu", "lxu.meta", "lxifc", "lxserv", "lxguid", "modo"]
 )
